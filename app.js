@@ -4,10 +4,14 @@
 
 'use strict';
 
+require('babel-core/register');
+
+var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 import express from 'express';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
-import config from './config/environment';
+import config from './config/config';
 import http from 'http';
 
 // Connect to MongoDB
@@ -22,18 +26,20 @@ if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
 var app = express();
+app.set('env', env);
 var server = http.createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
 
 // Start server
-function startServer() {
-    app.angularFullstack = server.listen(config.port, config.ip, function() {
+exports.startApp = function() {
+    server.listen(config.port, function() {
         console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
     });
-}
+};
 
-setImmediate(startServer);
-
-// Expose app
-exports = module.exports = app;
+exports.stopApp = function() {
+    server.close(function() {
+        console.log('Express server stopped on %d, in %s mode', config.port, app.get('env'));
+    });
+};

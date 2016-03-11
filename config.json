@@ -1,0 +1,15 @@
+{
+    "mongo": {
+        "options": {
+            "uri": "mongodb://localhost/quejicas",
+            "db": {
+                "safe": true
+            }
+        }
+    },
+    "port": 9000,
+    "seedDB": true,
+    "secrets": {
+        "session": "quejicas-secret"
+    }
+}
