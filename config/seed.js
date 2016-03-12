@@ -5,8 +5,7 @@
 
 'use strict';
 var Thing = require('../api/thing/thing.model');
-
-//import User from '../api/user/user.model';
+var User = require('../api/user/user.model');
 
 Thing.find({}).removeAsync()
     .then(() => {
@@ -40,7 +39,7 @@ Thing.find({}).removeAsync()
         });
     });
 
-/*User.find({}).removeAsync()
+User.find({}).removeAsync()
     .then(() => {
         User.createAsync({
             provider: 'local',
@@ -57,4 +56,4 @@ Thing.find({}).removeAsync()
         .then(() => {
             console.log('finished populating users');
         });
-    });*/
+    });

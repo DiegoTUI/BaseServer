@@ -15,5 +15,21 @@
     "seedDB": true,
     "secrets": {
         "session": "quejicas-secret"
-    }
+    },
+    "facebook": {
+        "clientID": "********",
+        "clientSecret": "***********",
+        "callbackURL": "/auth/facebook/callback"
+    },
+    "twitter": {
+        "clientID": "********",
+        "clientSecret": "********",
+        "callbackURL":  "/auth/twitter/callback"
+    },
+    "google": {
+        "clientID": "********",
+        "clientSecret": "********",
+        "callbackURL":  "/auth/google/callback"
+    },
+    "userRoles": ["guest", "user", "admin"]
 }
