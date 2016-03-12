@@ -52,8 +52,5 @@ User.find({}).removeAsync()
             name: 'Admin',
             email: 'admin@example.com',
             password: 'admin'
-        })
-        .then(() => {
-            console.log('finished populating users');
         });
     });

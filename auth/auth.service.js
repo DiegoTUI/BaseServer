@@ -19,8 +19,8 @@ exports.isAuthenticated = function() {
 
     // Validate jwt
     .use(function(req, res, next) {
-        // allow access_token to be passed through query parameter as well
-        if (req.query && req.query.hasOwnProperty('access_token')) {
+        // allow accesstoken to be passed through query parameter as well
+        if (req.query && req.query.hasOwnProperty('accesstoken')) {
             req.headers.authorization = 'Bearer ' + req.query.accesstoken;
         }
 
@@ -38,7 +38,9 @@ exports.isAuthenticated = function() {
             req.user = user;
             next();
         })
-        .catch(err => next(err));
+        .catch(err => {
+            next(err);
+        });
     });
 };
 

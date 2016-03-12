@@ -1,6 +1,10 @@
 {
     "mongo": {
-        "uri": "mongodb://localhost/quejicas",
+        "uri": {
+            "development": "mongodb://localhost/quejicas-dev",
+            "production": "mongodb://localhost/quejicas",
+            "test": "mongodb://localhost/quejicas-test"
+        },
         "options": {
             "db": {
                 "safe": true
@@ -12,7 +16,11 @@
         "production": 9000,
         "test": 9090
     },
-    "seedDB": true,
+    "seedDB": {
+        "development": true,
+        "production": false,
+        "test": false
+    },
     "secrets": {
         "session": "quejicas-secret"
     },

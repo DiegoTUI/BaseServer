@@ -104,7 +104,6 @@ exports.changePassword =  function(req, res) {
  */
 exports.me = function(req, res, next) {
     var userId = req.user._id;
-
     User.findOneAsync({ _id: userId }, '-salt -password')
     .then(user => { // don't ever give out the password or salt
         if (!user) {

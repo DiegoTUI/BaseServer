@@ -10,23 +10,28 @@ describe('User API:', () => {
 
     // Clear test users before testing
     beforeAll((done) => {
-        User.removeAsync({email: 'test@example.com'}).then(function() {
-            user = new User({
-                name: 'Fake User',
-                email: 'test@example.com',
-                password: 'password'
-            });
+        app.startApp(function(error, address) {
+            if (error) {
+                console.error('Error opening the app', error);
+            }
 
-            user.saveAsync()
-            .then(() => {
-                app.startApp(function(error, address) {
-                    if (error) {
-                        console.error('Error opening the app', error);
-                    }
+            homeUrl = 'http://localhost:' + address.port;
 
-                    homeUrl = 'http://localhost:' + address.port;
-                    done();
+            User.removeAsync().then(() => {
+                user = new User({
+                    name: 'Fake User',
+                    email: 'test@example.com',
+                    password: 'password'
                 });
+
+                user.saveAsync()
+                .then(done)
+                .catch((err) => {
+                    console.error(err);
+                });
+            })
+            .catch((err) => {
+                console.error(err);
             });
         });
     });
@@ -42,6 +47,9 @@ describe('User API:', () => {
 
                 done();
             });
+        })
+        .catch((err) => {
+            console.error(err);
         });
     });
 
@@ -71,7 +79,7 @@ describe('User API:', () => {
                 url: homeUrl + '/api/users/me',
                 method: 'GET',
                 headers: {
-                    authorization: 'Bearer' + token
+                    authorization: 'Bearer ' + token
                 },
                 json: true
             };

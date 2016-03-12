@@ -13,14 +13,14 @@ var config = require('./config/config');
 var http = require('http');
 
 // Connect to MongoDB
-mongoose.connect(config.mongo.uri, config.mongo.options);
+mongoose.connect(config.mongo.uri[env], config.mongo.options);
 mongoose.connection.on('error', function(err) {
     console.error('MongoDB connection error: ' + err);
     process.exit(-1);
 });
 
 // Populate databases with sample data
-if (config.seedDB) { require('./config/seed'); }
+if (config.seedDB[env]) { require('./config/seed'); }
 
 // Setup server
 var app = express();
