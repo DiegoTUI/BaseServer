@@ -3,7 +3,6 @@
  * Module dependencies.
  */
 
-require('babel-core/register');
 var app = require('../app');
 
 app.startApp(function(error, address) {
