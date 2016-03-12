@@ -4,21 +4,21 @@
 
 'use strict';
 
-import morgan from 'morgan';
-import compression from 'compression';
-import bodyParser from 'body-parser';
-import methodOverride from 'method-override';
-import cookieParser from 'cookie-parser';
-import errorHandler from 'errorhandler';
-import lusca from 'lusca';
-import config from './config';
-import passport from 'passport';
-import session from 'express-session';
-import connectMongo from 'connect-mongo';
-import mongoose from 'mongoose';
+var morgan = require('morgan');
+var compression = require('compression');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var errorHandler = require('errorhandler');
+var lusca = require('lusca');
+var config = require('./config');
+var passport = require('passport');
+var session = require('express-session');
+var connectMongo = require('connect-mongo');
+var mongoose = require('mongoose');
 var MongoStore = connectMongo(session);
 
-export default function(app) {
+module.exports = function(app) {
     var env = app.get('env');
 
     app.set('views', config.root + '/views');

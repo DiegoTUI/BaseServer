@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {EventEmitter} from 'events';
+var EventEmitter = require('events').EventEmitter;
 var Thing = require('./thing.model');
 var ThingEvents = new EventEmitter();
 
@@ -30,4 +30,4 @@ function emitEvent(event) {
     };
 }
 
-export default ThingEvents;
+module.exports = ThingEvents;

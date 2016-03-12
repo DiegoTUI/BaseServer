@@ -6,11 +6,11 @@
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-import express from 'express';
-import mongoose from 'mongoose';
+var express = require('express');
+var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-import config from './config/config';
-import http from 'http';
+var config = require('./config/config');
+var http = require('http');
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -30,14 +30,21 @@ require('./config/express')(app);
 require('./routes')(app);
 
 // Start server
-exports.startApp = function() {
-    server.listen(config.port, function() {
-        console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-    });
+exports.startApp = function(callback) {
+    server.listen(config.port[env]);
+    server.on('error', onError);
+    server.on('listening', onListening);
+
+    function onError(error) {
+        return callback(error, server.address());
+    }
+
+    function onListening() {
+        return callback(null, server.address());
+    }
 };
 
-exports.stopApp = function() {
-    server.close(function() {
-        console.log('Express server stopped on %d, in %s mode', config.port, app.get('env'));
-    });
+// Start server
+exports.stopApp = function(callback) {
+    server.close(callback);
 };

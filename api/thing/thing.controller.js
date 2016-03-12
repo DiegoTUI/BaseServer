@@ -9,8 +9,8 @@
 
 'use strict';
 
-import _ from 'lodash';
-import Thing from './thing.model';
+var _ = require('lodash');
+var Thing = require('./thing.model');
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -61,29 +61,30 @@ function handleError(res, statusCode) {
 }
 
 // Gets a list of Things
-export function index(req, res) {
+exports.index = function(req, res) {
     Thing.findAsync()
       .then(respondWithResult(res))
       .catch(handleError(res));
-}
+};
 
 // Gets a single Thing from the DB
-export function show(req, res) {
+exports.show = function(req, res) {
     Thing.findByIdAsync(req.params.id)
       .then(handleEntityNotFound(res))
       .then(respondWithResult(res))
       .catch(handleError(res));
-}
+};
 
 // Creates a new Thing in the DB
-export function create(req, res) {
+exports.create = function(req, res) {
+    console.log(1)
     Thing.createAsync(req.body)
       .then(respondWithResult(res, 201))
       .catch(handleError(res));
-}
+};
 
 // Updates an existing Thing in the DB
-export function update(req, res) {
+exports.update = function(req, res) {
     if (req.body._id) {
         delete req.body._id;
     }
@@ -93,12 +94,12 @@ export function update(req, res) {
       .then(saveUpdates(req.body))
       .then(respondWithResult(res))
       .catch(handleError(res));
-}
+};
 
 // Deletes a Thing from the DB
-export function destroy(req, res) {
+exports.destroy = function destroy(req, res) {
     Thing.findByIdAsync(req.params.id)
       .then(handleEntityNotFound(res))
       .then(removeEntity(res))
       .catch(handleError(res));
-}
+};

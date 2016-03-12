@@ -7,7 +7,11 @@
             }
         }
     },
-    "port": 9000,
+    "port": {
+        "development": 9000,
+        "production": 9000,
+        "test": 9090
+    },
     "seedDB": true,
     "secrets": {
         "session": "quejicas-secret"

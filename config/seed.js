@@ -4,7 +4,7 @@
  */
 
 'use strict';
-import Thing from '../api/thing/thing.model';
+var Thing = require('../api/thing/thing.model');
 //import User from '../api/user/user.model';
 
 Thing.find({}).removeAsync()

@@ -8,4 +8,4 @@ var ThingSchema = new mongoose.Schema({
     active: Boolean
 });
 
-export default mongoose.model('Thing', ThingSchema);
+module.exports = mongoose.model('Thing', ThingSchema);

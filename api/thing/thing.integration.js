@@ -1,147 +1,169 @@
-/*'use strict';
+'use strict';
 
-var app = require('../..');
-import request from 'supertest';
+var app = require('../../app');
+var request = require('request');
 
 var newThing;
+var homeUrl;
 
-describe('Thing API:', function() {
+describe('Thing API:', () => {
 
-  describe('GET /api/things', function() {
-    var things;
+    beforeAll((done) => {
+        app.startApp(function(error, address) {
+            if (error) {
+                console.error('Error opening the app', error);
+            }
 
-    beforeEach(function(done) {
-      request(app)
-        .get('/api/things')
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          things = res.body;
-          done();
+            homeUrl = 'http://localhost:' + address.port;
+            console.log(homeUrl)
+            done();
         });
     });
 
-    it('should respond with JSON array', function() {
-      things.should.be.instanceOf(Array);
-    });
+    afterAll(function(done) {
+        app.stopApp(function(error) {
+            if (error) {
+                console.error('Error closing the app', error);
+            }
 
-  });
-
-  describe('POST /api/things', function() {
-    beforeEach(function(done) {
-      request(app)
-        .post('/api/things')
-        .send({
-          name: 'New Thing',
-          info: 'This is the brand new thing!!!'
-        })
-        .expect(201)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          newThing = res.body;
-          done();
+            done();
         });
     });
 
-    it('should respond with the newly created thing', function() {
-      newThing.name.should.equal('New Thing');
-      newThing.info.should.equal('This is the brand new thing!!!');
-    });
+    describe('POST /api/things', () => {
+        beforeEach((done) => {
+            var options = {
+                url: homeUrl + '/api/things',
+                method: 'POST',
+                json: {
+                    name: 'New Thing',
+                    info: 'This is the brand new thing!!!'
+                }
+            };
+            request(options, (error, response, body) => {
+                expect(error).toBeNull();
+                expect(response.statusCode).toBe(201);
+                expect(response.headers['content-type']).toContain('application/json');
+                newThing = body;
+                done();
+            });
+        });
 
-  });
-
-  describe('GET /api/things/:id', function() {
-    var thing;
-
-    beforeEach(function(done) {
-      request(app)
-        .get('/api/things/' + newThing._id)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          thing = res.body;
-          done();
+        it('should respond with the newly created thing', () => {
+            expect(newThing.name).toBe('New Thing');
+            expect(newThing.info).toBe('This is the brand new thing!!!');
         });
     });
 
-    afterEach(function() {
-      thing = {};
-    });
+    xdescribe('GET /api/things', () => {
+        var things;
 
-    it('should respond with the requested thing', function() {
-      thing.name.should.equal('New Thing');
-      thing.info.should.equal('This is the brand new thing!!!');
-    });
+        beforeEach((done) => {
+            request(app.appObject)
+                .get('/api/things')
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
 
-  });
+                    things = res.body;
+                    done();
+                });
+        });
 
-  describe('PUT /api/things/:id', function() {
-    var updatedThing;
-
-    beforeEach(function(done) {
-      request(app)
-        .put('/api/things/' + newThing._id)
-        .send({
-          name: 'Updated Thing',
-          info: 'This is the updated thing!!!'
-        })
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
-          updatedThing = res.body;
-          done();
+        it('should respond with JSON array', () => {
+            expect(things instanceof Array).toBe(true);
+            expect(things.length).toBeGreaterThan(0);
         });
     });
 
-    afterEach(function() {
-      updatedThing = {};
-    });
+    xdescribe('GET /api/things/:id', () => {
+        var thing;
 
-    it('should respond with the updated thing', function() {
-      updatedThing.name.should.equal('Updated Thing');
-      updatedThing.info.should.equal('This is the updated thing!!!');
-    });
+        beforeEach((done) => {
+            request(app.appObject)
+                .get('/api/things/' + newThing._id)
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    if (err) {
+                        return done(err);
+                    }
 
-  });
+                    thing = res.body;
+                    done();
+                });
+        });
 
-  describe('DELETE /api/things/:id', function() {
+        afterEach(() => {
+            thing = {};
+        });
 
-    it('should respond with 204 on successful removal', function(done) {
-      request(app)
-        .delete('/api/things/' + newThing._id)
-        .expect(204)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          done();
+        it('should respond with the requested thing', () => {
+            expect(thing.name).toBe('New Thing');
+            expect(thing.info).toBe('This is the brand new thing!!!');
         });
     });
 
-    it('should respond with 404 when thing does not exist', function(done) {
-      request(app)
-        .delete('/api/things/' + newThing._id)
-        .expect(404)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          done();
+    xdescribe('PUT /api/things/:id', () => {
+        var updatedThing;
+
+        beforeEach((done) => {
+            request(app.appObject)
+                .put('/api/things/' + newThing._id)
+                .send({
+                    name: 'Updated Thing',
+                    info: 'This is the updated thing!!!'
+                })
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function(err, res) {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    updatedThing = res.body;
+                    done();
+                });
         });
+
+        afterEach(() => {
+            updatedThing = {};
+        });
+
+        it('should respond with the updated thing', () => {
+            expect(updatedThing.name).toBe('Updated Thing');
+            expect(updatedThing.info).toBe('This is the updated thing!!!');
+        });
+
     });
 
-  });
+    describe('DELETE /api/things/:id', () => {
 
-});*/
+        it('should respond with 204 on successful removal', (done) => {
+            var options = {
+                url: homeUrl + '/api/things/' + newThing._id,
+                method: 'DELETE'
+            };
+            request(options, (error, response) => {
+                expect(error).toBeNull();
+                expect(response.statusCode).toBe(204);
+                done();
+            });
+        });
+
+        it('should respond with 404 when thing does not exist', (done) => {
+            var options = {
+                url: homeUrl + '/api/things' + newThing._id,
+                method: 'DELETE'
+            };
+            request(options, (error, response) => {
+                expect(error).toBeNull();
+                expect(response.statusCode).toBe(404);
+                done();
+            });
+        });
+    });
+});
