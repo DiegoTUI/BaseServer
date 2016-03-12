@@ -67,8 +67,12 @@ module.exports = function(app) {
         app.use(morgan('dev'));
     }
 
-    if (env === 'development' || env === 'test') {
+    if (env === 'development') {
         app.use(morgan('dev'));
         app.use(errorHandler()); // Error handler - has to be last
     }
-}
+
+    if (env === 'test') {
+        app.use(errorHandler()); // Error handler - has to be last
+    }
+};

@@ -77,7 +77,6 @@ exports.show = function(req, res) {
 
 // Creates a new Thing in the DB
 exports.create = function(req, res) {
-    console.log(1)
     Thing.createAsync(req.body)
       .then(respondWithResult(res, 201))
       .catch(handleError(res));

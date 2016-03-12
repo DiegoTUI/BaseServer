@@ -15,7 +15,6 @@ describe('Thing API:', () => {
             }
 
             homeUrl = 'http://localhost:' + address.port;
-            console.log(homeUrl)
             done();
         });
     });
@@ -55,22 +54,22 @@ describe('Thing API:', () => {
         });
     });
 
-    xdescribe('GET /api/things', () => {
+    describe('GET /api/things', () => {
         var things;
 
         beforeEach((done) => {
-            request(app.appObject)
-                .get('/api/things')
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-
-                    things = res.body;
-                    done();
-                });
+            var options = {
+                url: homeUrl + '/api/things',
+                method: 'GET',
+                json: true
+            };
+            request(options, (error, response, body) => {
+                expect(error).toBeNull();
+                expect(response.statusCode).toBe(200);
+                expect(response.headers['content-type']).toContain('application/json');
+                things = body;
+                done();
+            });
         });
 
         it('should respond with JSON array', () => {
@@ -79,22 +78,22 @@ describe('Thing API:', () => {
         });
     });
 
-    xdescribe('GET /api/things/:id', () => {
+    describe('GET /api/things/:id', () => {
         var thing;
 
         beforeEach((done) => {
-            request(app.appObject)
-                .get('/api/things/' + newThing._id)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-
-                    thing = res.body;
-                    done();
-                });
+            var options = {
+                url: homeUrl + '/api/things/' + newThing._id,
+                method: 'GET',
+                json: true
+            };
+            request(options, (error, response, body) => {
+                expect(error).toBeNull();
+                expect(response.statusCode).toBe(200);
+                expect(response.headers['content-type']).toContain('application/json');
+                thing = body;
+                done();
+            });
         });
 
         afterEach(() => {
@@ -107,26 +106,25 @@ describe('Thing API:', () => {
         });
     });
 
-    xdescribe('PUT /api/things/:id', () => {
+    describe('PUT /api/things/:id', () => {
         var updatedThing;
 
         beforeEach((done) => {
-            request(app.appObject)
-                .put('/api/things/' + newThing._id)
-                .send({
+            var options = {
+                url: homeUrl + '/api/things/' + newThing._id,
+                method: 'PUT',
+                json: {
                     name: 'Updated Thing',
                     info: 'This is the updated thing!!!'
-                })
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .end(function(err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-
-                    updatedThing = res.body;
-                    done();
-                });
+                }
+            };
+            request(options, (error, response, body) => {
+                expect(error).toBeNull();
+                expect(response.statusCode).toBe(200);
+                expect(response.headers['content-type']).toContain('application/json');
+                updatedThing = body;
+                done();
+            });
         });
 
         afterEach(() => {
