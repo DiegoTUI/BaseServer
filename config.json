@@ -1,7 +1,7 @@
 {
     "mongo": {
+        "uri": "mongodb://localhost/quejicas",
         "options": {
-            "uri": "mongodb://localhost/quejicas",
             "db": {
                 "safe": true
             }
