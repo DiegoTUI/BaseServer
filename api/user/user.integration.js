@@ -25,13 +25,7 @@ describe('User API:', () => {
                 });
 
                 user.saveAsync()
-                .then(done)
-                .catch((err) => {
-                    console.error(err);
-                });
-            })
-            .catch((err) => {
-                console.error(err);
+                .then(done);
             });
         });
     });
@@ -47,9 +41,6 @@ describe('User API:', () => {
 
                 done();
             });
-        })
-        .catch((err) => {
-            console.error(err);
         });
     });
 
