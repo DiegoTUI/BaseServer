@@ -6,6 +6,7 @@
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+var log = require('./utils/log');
 var express = require('express');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -15,7 +16,7 @@ var http = require('http');
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri[env], config.mongo.options);
 mongoose.connection.on('error', function(err) {
-    console.error('MongoDB connection error: ' + err);
+    log.error('MongoDB connection error: ' + err);
     process.exit(-1);
 });
 

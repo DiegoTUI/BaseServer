@@ -25,7 +25,8 @@
     "passport-facebook": "^2.0.0",
     "passport-twitter": "^1.0.3",
     "passport-google-oauth": "~0.2.0",
-    "request": "^2.51.0"
+    "request": "^2.51.0",
+    "winston": "SmartNode-es/winston"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

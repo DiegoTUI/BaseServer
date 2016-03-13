@@ -2,6 +2,7 @@
 
 // Include the cluster module
 var cluster = require('cluster');
+var log = require('../utils/log');
 
 // Code to run if we're in the master process
 if (cluster.isMaster) {
@@ -18,7 +19,7 @@ if (cluster.isMaster) {
     cluster.on('exit', function(worker) {
 
         // Replace the dead worker, we're not sentimental
-        console.log('Worker ' + worker.id + ' died :(');
+        log.info('Worker ' + worker.id + ' died :(');
         cluster.fork();
 
     });
@@ -27,5 +28,5 @@ if (cluster.isMaster) {
 } else {
 
     require('./single');
-    console.log('Worker ' + cluster.worker.id + ' running!');
+    log.info('Worker ' + cluster.worker.id + ' running!');
 }

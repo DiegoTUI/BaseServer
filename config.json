@@ -39,5 +39,26 @@
         "clientSecret": "********",
         "callbackURL":  "/auth/google/callback"
     },
-    "userRoles": ["guest", "user", "admin"]
+    "userRoles": ["guest", "user", "admin"],
+    "log": {
+        "transports": [
+            {
+                "type": "Console",
+                "options": {
+                    "level": "info",
+                    "colorize": "all"
+                }
+            },
+            {
+                "type": "DailyRotateFile",
+                "options": {
+                    "level": "info",
+                    "json": false,
+                    "name": "file",
+                    "datePattern": ".yyyyMMdd",
+                    "filename": "logs/log_file.log"
+                }
+            }
+        ]
+    }
 }

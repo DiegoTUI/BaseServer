@@ -4,6 +4,7 @@
  */
 
 var app = require('../app');
+var log = require('../utils/log');
 
 app.startApp(function(error, address) {
     var bind;
@@ -17,11 +18,11 @@ app.startApp(function(error, address) {
         // handle specific listen errors with friendly messages
         switch (error.code) {
             case 'EACCES':
-                console.error(bind + ' requires elevated privileges');
+                log.error(bind + ' requires elevated privileges');
                 process.exit(1);
                 break;
             case 'EADDRINUSE':
-                console.error(bind + ' is already in use');
+                log.error(bind + ' is already in use');
                 process.exit(1);
                 break;
             default:
@@ -29,7 +30,7 @@ app.startApp(function(error, address) {
         }
     } else {
         bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + address.port;
-        console.log('Listening on ' + bind);
+        log.info('Listening on ' + bind);
     }
 });
 
