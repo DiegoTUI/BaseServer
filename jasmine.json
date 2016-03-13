@@ -1,7 +1,8 @@
 {
   "spec_dir": ".",
   "spec_files": [
-    "api/**/*.integration.js"
+    "api/**/*.integration.js",
+    "api/**/*.spec.js"
   ],
   "verbose": true
 }
