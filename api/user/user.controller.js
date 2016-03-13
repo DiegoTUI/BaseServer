@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * User
+ * @module api/user
+ */
+
 var User = require('./user.model');
 var config = require('../../config/config');
 var jwt = require('jsonwebtoken');

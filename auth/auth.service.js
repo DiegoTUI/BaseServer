@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Auth utilities
+ * @module utils/auth
+ */
+
 var config = require('../config/config');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
