@@ -8,14 +8,14 @@ var path = require('path');
  * PENDING DOCS
  */
 
-require('prototypes');
+var _ = require('lodash');
 var localConfig = require('../config.json');
 
 // Read global config file, override main file
 try {
     var home = process.env.HOME || process.env.USERPROFILE;
     var globalJson = require(home + '/.baseserver.json');
-    localConfig.overwriteWith(globalJson);
+    _.merge(localConfig, globalJson);
 } catch (err) {
     // do nothing
 }
@@ -23,7 +23,7 @@ try {
 // Read local config file, override main file
 try {
     var localJson = require('../local_config.json');
-    localConfig.overwriteWith(localJson);
+    _.merge(localConfig, localJson);
 } catch (err) {
     // do nothing
 }
